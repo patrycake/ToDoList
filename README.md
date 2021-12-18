@@ -8,6 +8,6 @@ to do item properties:
 - priority
 - notes
 - checklist
-- seperate projects 
-- default project where all todos live
+- seperate lists 
+- default list where all todos live
 

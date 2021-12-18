@@ -7,7 +7,8 @@ module.exports = {
     mode: 'development',
     entry: {
         index: './src/index.js',
-        print: './src/print.js'
+        todo: './src/todo.js',
+        dom: './src/dom.js'
     },
     devtool: 'inline-source-map',
     devServer: {
@@ -16,7 +17,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Development',
+            title: 'To Do List',
             template: './src/index.html'
         }),
         new MiniCssExtractPlugin(),

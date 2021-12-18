@@ -4,6 +4,8 @@
   "description": "To Do List HTML, CSS Vanilla Javascript webpack Created with OOP and SOLID design patterns to do item properties: - title - description - dueDate - priority - notes - checklist - seperate projects  - default project where all todos live",
   "main": "index.js",
   "scripts": {
+    "build": "webpack mode=production",
+    "dev": "webpack serve --watch --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
