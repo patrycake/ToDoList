@@ -1,4 +1,4 @@
-import componentCreater, {createListComponent} from "./components";
+import componentCreater, {createListComponent, createAllListsComponent} from "./components";
 import {
     list,
     item
@@ -47,9 +47,10 @@ const domController = (() => {
         console.log("poplist")
         console.table(objController.getLists())
         const divListsComp = document.getElementById("lists")
+        divListsComp.appendChild(createAllListsComponent)
         objController.getLists().forEach(onelist => {
             console.log(onelist)
-            divListsComp.appendChild(createListComponent(onelist))
+            divListsComp.appendChild(createListComponent(onelist, onelist.numItems()))
         })
     }
     return {
@@ -63,5 +64,4 @@ const domController = (() => {
     objController.addList(defaultList)
     console.log(objController.getLists())
     domController.populateLists();
-    // componentCreater.default.createListComponent()
 })();

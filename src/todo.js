@@ -41,12 +41,14 @@ const list = (inputListName, inputDescription = "") => {
         itemsArr.splice(itemIndex != 1 ? itemIndex : null, 1)
         // }
     }
+    const numItems = () => {return itemsArr.length}
     return {
         getName,
         getDescription,
         setDescription,
         addItem,
-        deleteItem
+        deleteItem,
+        numItems
     };
 }
 
