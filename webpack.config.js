@@ -2,18 +2,22 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const webpack = require('webpack')
 
 module.exports = {
     mode: 'development',
     entry: {
         index: './src/index.js',
         todo: './src/todo.js',
-        dom: './src/dom.js'
+        component: './src/components.js',
+        hot: 'webpack/hot/dev-server.js',
+        client: 'webpack-dev-server/client/index.js?hot=true&live-reload=true'
     },
     devtool: 'inline-source-map',
     devServer: {
         static: "./dist",
-        open: true,
+        hot: true,
+        client: false,
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -21,6 +25,7 @@ module.exports = {
             template: './src/index.html'
         }),
         new MiniCssExtractPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
     ],
     output: {
         filename: '[name].bundle.js',
@@ -44,6 +49,7 @@ module.exports = {
         ],
     },
     optimization: {
+        runtimeChunk: 'single',
         minimize: true,
         minimizer: [
             new CssMinimizerPlugin()
