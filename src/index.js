@@ -22,13 +22,13 @@ const objController = (() => {
     const getLists = () => {
         return listArr;
     }
-    // const createItem = (inputList = "-1") => {
-    //     newItem = item();
-    //     defaultList.addItem(newItem);
-    //     if (listArr.includes(inputList)) {
-    //         listArr[listArr.indexOf(inputList)].addItem(newItem)
-    //     }
-    // }
+    const createItem = (inputList = "-1") => {
+        newItem = item();
+        defaultList.addItem(newItem);
+        if (listArr.includes(inputList)) {
+            listArr[listArr.indexOf(inputList)].addItem(newItem)
+        }
+    }
     return {
         addList,
         getLists,

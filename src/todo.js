@@ -9,7 +9,25 @@
  * - complete
  * - list I live in???
  *******************/
+const item = (inputItemName, inputItemDescription = "") => {
+    const itemName = inputItemName;
+    const itemDescription = inputItemDescription;
 
+    const getName = () => {
+        return itemName
+    }
+    const getDescription = () => {
+        return itemDescription
+    }
+    const setDescription = (description) => {
+        itemDescription = description
+    }
+    return {
+        getName,
+        getDescription,
+        setDescription
+    }
+}
 /******************
  * list object
  * ---------------
@@ -19,10 +37,10 @@
  * - name of list
  * - description of list
  ******************/
-const list = (inputListName, inputDescription = "") => {
+const list = (inputListName, inputListDescription = "") => {
     let itemsArr = [];
     const listName = inputListName;
-    let listDescription = inputDescription;
+    let listDescription = inputListDescription;
     const getName = () => {
         return listName;
     }
@@ -41,7 +59,9 @@ const list = (inputListName, inputDescription = "") => {
         itemsArr.splice(itemIndex != 1 ? itemIndex : null, 1)
         // }
     }
-    const numItems = () => {return itemsArr.length}
+    const numItems = () => {
+        return itemsArr.length
+    }
     return {
         getName,
         getDescription,
@@ -52,4 +72,7 @@ const list = (inputListName, inputDescription = "") => {
     };
 }
 
-export {list}
+export {
+    list,
+    item
+}
