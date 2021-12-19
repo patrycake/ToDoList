@@ -3,6 +3,7 @@ import {
     list,
     item
 } from "./todo";
+import './style.css'
 /******************
  * controller module object objects
  * ------------------------
@@ -32,7 +33,7 @@ const objController = (() => {
     return {
         addList,
         getLists,
-        // createItem
+        createItem
     }
 })();
 
