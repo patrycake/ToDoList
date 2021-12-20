@@ -1,19 +1,13 @@
-import componentCreater, {createListComponent, createAllListsComponent} from "./components";
+import componentCreater, {
+    createListComponent,
+    createAllListsComponent
+} from "./components";
 import {
     list,
     item
 } from "./todo";
 import './style.css'
-/******************
- * controller module object objects
- * ------------------------
- * - create default list
- * - add list
- * - array of lists
- * - get all lists
- * - creates todo item
- * - adds item to default and then to specific list
- */
+
 const objController = (() => {
     let listArr = [];
     const addList = (newList) => {
@@ -37,25 +31,46 @@ const objController = (() => {
     }
 })();
 
-// /*******************
-//  * controller module object dom
-//  * -----------------------------
-//  * - controls the dom?
-//  *      - show all lists
-//  */
 const domController = (() => {
-    const populateLists = () => {
-        console.log("poplist")
-        console.table(objController.getLists())
-        const divListsComp = document.getElementById("lists")
-        divListsComp.appendChild(createAllListsComponent)
-        objController.getLists().forEach(onelist => {
-            console.log(onelist)
-            divListsComp.appendChild(createListComponent(onelist, onelist.numItems()))
+    const setUpMainList = () => {
+        createAllListsComponent.listAddButt.addEventListener("click", () => {
+            document.getElementById("modal-list").classList.add("active")
         })
     }
+    const populateLists = () => {
+        const divListsComp = document.getElementById("lists")
+        divListsComp.innerHTML = "";
+        divListsComp.appendChild(createAllListsComponent.allListComp)
+        objController.getLists().forEach(onelist => {
+            const listContainer = createListComponent(onelist, onelist.numItems())
+            listContainer.addEventListener("click", function(){
+                divListsComp.innerHTML = "";
+                populateItems(onelist)
+            })
+            divListsComp.appendChild(listContainer)
+        })
+    }
+    const populateItems = (parentList) => {}
+
+    function formSubmitList(event) {
+        event.preventDefault();
+        document.getElementById("modal-list").classList.remove("active")
+        const listForm = document.getElementById("list-form")
+        objController.addList(list(listForm.elements['list-name'].value, listForm.elements['list-description'].value))
+        populateLists()
+    }
+
+    const formSubmitItem = (event) => {
+        event.preventDefault();
+        document.getElementById("modal-item").classList.remove("active")
+    }
+
     return {
-        populateLists
+        setUpMainList,
+        populateLists,
+        populateItems,
+        formSubmitList,
+        formSubmitItem
     }
 })();
 
@@ -64,5 +79,8 @@ const domController = (() => {
     const defaultList = list("default", "Where all items are saved");
     objController.addList(defaultList)
     console.log(objController.getLists())
+    domController.setUpMainList()
     domController.populateLists();
 })();
+
+document.getElementById("list-form").addEventListener("submit", domController.formSubmitList, false);

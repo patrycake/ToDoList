@@ -18,6 +18,11 @@ module.exports = {
         static: "./dist",
         hot: true,
         client: false,
+        // open: {
+        //     app: {
+        //         name: 'google-chrome'
+        //     }
+        // }
     },
     plugins: [
         new HtmlWebpackPlugin({

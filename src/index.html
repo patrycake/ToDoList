@@ -10,7 +10,7 @@
 <body>
     <div id="lists"></div>
     <div id="items"></div>
-    <div class="modal-background-overlay">
+    <div id="modal-list" class="modal-background-overlay">
         <div class="form-popup">
             <h2>New List</h1>
                 <form action="" class="form-container" id="list-form">
@@ -20,12 +20,12 @@
                     <input type="text" placeholder="Enter List Description" name="list-description">
                     <label for="read"><b>Finished All List Items</b></label>
                     <input class="checkbox" type="checkbox" name="finished-list">
-                    <button type="submit" class="btn-form" onsubmit="">Add List</button>
+                    <button type="submit" class="btn-form" onsubmit="domController.formSubmitList">Add List</button>
                     <button type="button" class="btn-form" id="close-form">Close</button>
                 </form>
         </div>
     </div>
-    <div class="modal-background-overlay">
+    <div id="modal-item" class="modal-background-overlay">
         <div class="form-popup">
             <h2>New Item</h1>
                 <form action="" class="form-container" id="item-form">
@@ -35,7 +35,7 @@
                     <input type="text" placeholder="Enter Item Description" name="item-description">
                     <label for="complete"><b>Completed</b></label>
                     <input class="checkbox" type="checkbox" name="complete">
-                    <button type="submit" class="btn-form" onsubmit="">Add Item</button>
+                    <button type="submit" class="btn-form" onsubmit="domController.formSubmitItem">Add Item</button>
                     <button type="button" class="btn-form" id="close-form">Close</button>
                 </form>
         </div>

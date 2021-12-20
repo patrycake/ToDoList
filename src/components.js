@@ -40,6 +40,7 @@ const componentCreater = (() => {
         divListComp.appendChild(h2List);
         divListComp.appendChild(pDescriptionList);
         divListComp.appendChild(pNumItemList)
+
         return divListComp;
     }
 
@@ -52,19 +53,41 @@ const componentCreater = (() => {
         buttAdd.innerText = "Create New List";
         divAllListComp.appendChild(h1AllListComp)
         divAllListComp.appendChild(buttAdd)
-        return divAllListComp;
+
+        const allListAndButt = {
+            "allListComp": divAllListComp,
+            "listAddButt": buttAdd
+        }
+        return allListAndButt;
     }
 
+    function allItemsComponent(listName, itemNum){
+        const divAllItemComp = document.createElement("div")
+        const h1AllItemComp = document.createElement("h1")
+        const buttAdd = document.createElement("button")
 
-    /****************
-     * modal component 
-     * ---------------
-     * edits 
-     * (and maybe are your sure message)
-     *****************/
+        h1AllListComp.innerText = "To Do List"
+        buttAdd.innerText = "Create New List";
+        divAllListComp.appendChild(h1AllListComp)
+        divAllListComp.appendChild(buttAdd)
+
+        const allListAndButt = {
+            "allListComp": divAllListComp,
+            "listAddButt": buttAdd
+        }
+        return allListAndButt;
+    }
+
+    function itemComponent(item){
+
+    }
+
     return {
         allListsComponent,
-        listComponent
+        listComponent,
+        allItemsComponent,
+        itemComponent
+
     }
 })();
 export default componentCreater;
