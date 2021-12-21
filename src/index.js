@@ -1,6 +1,8 @@
 import componentCreater, {
     createListComponent,
-    createAllListsComponent
+    createListsHeaderComponent,
+    createItemComponent,
+    createItemsHeaderComponent
 } from "./components";
 import {
     list,
@@ -9,7 +11,9 @@ import {
 import './style.css'
 
 const objController = (() => {
-    let listArr = [];
+    const defaultList = list("default", "Where all items are saved");
+    defaultList.addItem( item("defaultItem", "defaultItemDescription"))
+    let listArr = [defaultList];
     const addList = (newList) => {
         newList != "-1" ? listArr.push(newList) : "";
         console.log(newList.getName())
@@ -17,40 +21,64 @@ const objController = (() => {
     const getLists = () => {
         return listArr;
     }
-    const createItem = (inputList = "-1") => {
-        newItem = item();
-        defaultList.addItem(newItem);
+    const addItem = (inputList = "-1", inputItem) => {
+        defaultList.addItem(inputItem);
         if (listArr.includes(inputList)) {
-            listArr[listArr.indexOf(inputList)].addItem(newItem)
+            listArr[listArr.indexOf(inputList)].addItem(inputItem)
         }
     }
     return {
         addList,
         getLists,
-        createItem
+        addItem
     }
 })();
 
 const domController = (() => {
     const setUpMainList = () => {
-        createAllListsComponent.listAddButt.addEventListener("click", () => {
+        createListsHeaderComponent.listAddButt.addEventListener("click", () => {
             document.getElementById("modal-list").classList.add("active")
         })
+        const divAllLists = document.createElement("div")
+        divAllLists.id = "lists-all-container"
+        divAllLists.classList.add("active")
+        document.getElementById("lists").appendChild(createListsHeaderComponent.listHeaderComp)
+        document.getElementById("lists").appendChild(divAllLists)
+
     }
+    const setUpMainItem = (parentList) => {
+        const divItemComp = document.getElementById("items")
+        divItemComp.innerHTML = "";
+        divItemComp.appendChild(createItemsHeaderComponent(parentList, parentList.numItems()))
+        const divAllItems = document.createElement("div")
+        divAllItems.id = "items-all-container"
+        divAllItems.classList.add("active")
+        divItemComp.appendChild(divAllItems)
+    }
+
     const populateLists = () => {
-        const divListsComp = document.getElementById("lists")
-        divListsComp.innerHTML = "";
-        divListsComp.appendChild(createAllListsComponent.allListComp)
+        const divListsComp = document.getElementById("lists-all-container")
+        divListsComp.innerHTML = ""
         objController.getLists().forEach(onelist => {
             const listContainer = createListComponent(onelist, onelist.numItems())
-            listContainer.addEventListener("click", function(){
-                divListsComp.innerHTML = "";
+            listContainer.addEventListener("click", function () {
+                divListsComp.innerHTML = ""
+                createListsHeaderComponent.listHeaderComp.hidden = true;
+                setUpMainItem(onelist)
                 populateItems(onelist)
             })
             divListsComp.appendChild(listContainer)
         })
     }
-    const populateItems = (parentList) => {}
+    const populateItems = (parentList) => {
+        const divItemsComp = document.getElementById("items-all-container")
+        divItemsComp.classList.add("active")
+        divItemsComp.innerHTML = "";
+        parentList.getItems().forEach(item => {
+            const itemsComponent = createItemComponent(item)
+            divItemsComp.appendChild(itemsComponent)
+        })
+    }
 
     function formSubmitList(event) {
         event.preventDefault();
@@ -76,8 +104,7 @@ const domController = (() => {
 
 (() => {
     console.log("start here")
-    const defaultList = list("default", "Where all items are saved");
-    objController.addList(defaultList)
+    
     console.log(objController.getLists())
     domController.setUpMainList()
     domController.populateLists();

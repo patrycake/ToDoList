@@ -25,7 +25,7 @@
  * button show items
  *****************/
 const componentCreater = (() => {
-    function listComponent(list, itemNum) {
+    function listComponent(list, itemNum, style) {
         console.log(list)
         const divListComp = document.createElement("div");
         const h2List = document.createElement("h2");
@@ -44,54 +44,54 @@ const componentCreater = (() => {
         return divListComp;
     }
 
-    function allListsComponent() {
-        const divAllListComp = document.createElement("div")
-        const h1AllListComp = document.createElement("h1")
+    function listsHeaderComponent() {
+        const divListHeaderComp = document.createElement("div")
+        const h1ListHeaderComp = document.createElement("h1")
         const buttAdd = document.createElement("button")
 
-        h1AllListComp.innerText = "To Do List"
+        divListHeaderComp.id = "list-header"
+        divListHeaderComp.classList.add("active")
+        h1ListHeaderComp.innerText = "To Do List"
         buttAdd.innerText = "Create New List";
-        divAllListComp.appendChild(h1AllListComp)
-        divAllListComp.appendChild(buttAdd)
+        divListHeaderComp.appendChild(h1ListHeaderComp)
+        divListHeaderComp.appendChild(buttAdd)
 
         const allListAndButt = {
-            "allListComp": divAllListComp,
-            "listAddButt": buttAdd
-        }
-        return allListAndButt;
-    }
-
-    function allItemsComponent(listName, itemNum){
-        const divAllItemComp = document.createElement("div")
-        const h1AllItemComp = document.createElement("h1")
-        const buttAdd = document.createElement("button")
-
-        h1AllListComp.innerText = "To Do List"
-        buttAdd.innerText = "Create New List";
-        divAllListComp.appendChild(h1AllListComp)
-        divAllListComp.appendChild(buttAdd)
-
-        const allListAndButt = {
-            "allListComp": divAllListComp,
-            "listAddButt": buttAdd
+            "listHeaderComp": divListHeaderComp,
+            "listAddButt": buttAdd,
         }
         return allListAndButt;
     }
 
     function itemComponent(item){
+        const divItemComp = document.createElement("div");
+        const h2Item = document.createElement("h2");
+        const pDescriptionItem = document.createElement("p");
 
+        divItemComp.classList.add("item-container")
+        h2Item.innerText = item.getName();
+        pDescriptionItem.innerText = item.getDescription();
+
+        divItemComp.appendChild(h2Item);
+        divItemComp.appendChild(pDescriptionItem);
+
+        return divItemComp;
     }
 
     return {
-        allListsComponent,
+        listsHeaderComponent,
         listComponent,
-        allItemsComponent,
         itemComponent
-
     }
 })();
 export default componentCreater;
-export const createAllListsComponent = componentCreater.allListsComponent();
-export function createListComponent(list, num) {
-    return componentCreater.listComponent(list, num)
+export const createListsHeaderComponent = componentCreater.listsHeaderComponent();
+export function createListComponent(list, num, style) {
+    return componentCreater.listComponent(list, num, style)
+}
+export function createItemsHeaderComponent(list, num, style) {
+    return componentCreater.listComponent(list, num, style)
+}
+export function createItemComponent(item) {
+    return componentCreater.itemComponent(item)
 }
