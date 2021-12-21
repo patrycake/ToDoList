@@ -84,6 +84,7 @@ const componentCreater = (() => {
 
         return divItemComp;
     }
+   
 
     return {
         listsHeaderComponent,

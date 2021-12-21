@@ -12,7 +12,7 @@ import './style.css'
 
 const objController = (() => {
     const defaultList = list("default", "Where all items are saved");
-    defaultList.addItem( item("defaultItem", "defaultItemDescription"))
+    defaultList.addItem(item("defaultItem", "defaultItemDescription"))
     let listArr = [defaultList];
     const addList = (newList) => {
         newList != "-1" ? listArr.push(newList) : "";
@@ -23,8 +23,9 @@ const objController = (() => {
     }
     const addItem = (inputList = "-1", inputItem) => {
         defaultList.addItem(inputItem);
-        if (listArr.includes(inputList)) {
+        if (listArr.includes(inputList) && inputList != defaultList) {
             listArr[listArr.indexOf(inputList)].addItem(inputItem)
+
         }
     }
     const getItems = (parentList) => {
@@ -33,40 +34,47 @@ const objController = (() => {
     return {
         addList,
         getLists,
-        addItem, 
+        addItem,
         getItems
     }
 })();
 
 const domController = (() => {
-    const setUpMainList = () => {
-        createListsHeaderComponent.listAddButt.addEventListener("click", () => {
+    function clickEvents() {
+        document.getElementById("items").hidden = true;
+        document.getElementById("add-list-but").addEventListener("click", () => {
             document.getElementById("modal-list").classList.add("active")
         })
-        document.getElementById("close-form-list").addEventListener("click", function(){
+        document.getElementById("close-form-list").addEventListener("click", function () {
             document.getElementById("modal-list").classList.remove("active")
         })
-        const divAllLists = document.createElement("div")
-        divAllLists.id = "lists-all-container"
-        divAllLists.hidden = false;
-        document.getElementById("lists").appendChild(createListsHeaderComponent.listHeaderComp)
-        document.getElementById("lists").appendChild(divAllLists)
 
-    }
-    const setUpMainItem = (parentList) => {
-        const divItemComp = document.getElementById("items")
-        // divItemComp.innerHTML = ""
-        const divAllItems = document.createElement("div")
-        divAllItems.id = "items-all-container"
-        divAllItems.hidden = false;
-        divItemComp.appendChild(createItemsHeaderComponent(parentList, parentList.numItems(), "item-header-container"))
-        divItemComp.appendChild(divAllItems)
-        document.getElementById("add-item-button").addEventListener("click", () => {
-            document.getElementById("modal-item").classList.add("active")
-        })
-        document.getElementById("close-form-item").addEventListener("click", function(){
+        document.getElementById("close-form-item").addEventListener("click", function () {
             document.getElementById("modal-item").classList.remove("active")
         })
+
+        document.getElementById("list-form").addEventListener("submit", domController.formSubmitList, false);
+        document.getElementById("item-form").addEventListener("submit", domController.formSubmitItem, false);
+    }
+    const setUpMainItem = (parentList) => {
+        // dynamic clean it all before starting headeritem
+        document.getElementById("items").hidden = false;
+        const divItemComp = document.getElementById("items")
+        divItemComp.innerHTML = "";
+        const backbutt = document.createElement("button")
+        backbutt.innerText = "Back"
+        backbutt.id = "back-to-lists"
+        backbutt.addEventListener("click", () => {
+            document.getElementById("items").hidden = true;
+            document.getElementById("lists").hidden = false;
+            populateLists();
+        })
+        divItemComp.appendChild(backbutt)
+        divItemComp.appendChild(createItemsHeaderComponent(parentList, parentList.numItems(), "item-header-container"))
+        const divAllComp = document.createElement("div")
+        divAllComp.id = "items-all-container"
+        divItemComp.appendChild(divAllComp)
+
     }
 
     const populateLists = () => {
@@ -84,11 +92,14 @@ const domController = (() => {
     }
     const populateItems = (parentList) => {
         const divItemsComp = document.getElementById("items-all-container")
-        divItemsComp.hidden = false;
-        divItemsComp.innerHTML = "";
+        console.log(divItemsComp)
+
         parentList.getItems().forEach(item => {
             const itemsComponent = createItemComponent(item)
             divItemsComp.appendChild(itemsComponent)
+        })
+        document.getElementById("add-item-button").addEventListener("click", () => {
+            document.getElementById("modal-item").classList.add("active")
         })
     }
 
@@ -106,25 +117,24 @@ const domController = (() => {
         document.getElementById("modal-item").classList.remove("active")
         const itemForm = document.getElementById("item-form")
         objController.addItem(document.getElementById("add-item-button").parent, item(itemForm.elements['item-name'].value, itemForm.elements['item-description'].value))
+        setUpMainItem(document.getElementById("add-item-button").parent)
         populateItems(document.getElementById("add-item-button").parent)
     }
 
     return {
-        setUpMainList,
+        // setUpMainList,
         populateLists,
         populateItems,
         formSubmitList,
-        formSubmitItem
+        formSubmitItem,
+        clickEvents
     }
 })();
 
 (() => {
     console.log("start here")
-    
+
     console.log(objController.getLists())
-    domController.setUpMainList()
+    domController.clickEvents()
     domController.populateLists();
 })();
-
-document.getElementById("list-form").addEventListener("submit", domController.formSubmitList, false);
-document.getElementById("item-form").addEventListener("submit", domController.formSubmitItem, false);
