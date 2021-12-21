@@ -32,7 +32,7 @@ const componentCreater = (() => {
         const pDescriptionList = document.createElement("p");
         const pNumItemList = document.createElement("p")
 
-        divListComp.classList.add("list-container")
+        divListComp.classList.add(style)
         h2List.innerText = list.getName();
         pDescriptionList.innerText = list.getDescription();
         pNumItemList.innerText = `Items in List: ${itemNum}`;

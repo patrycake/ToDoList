@@ -39,9 +39,12 @@ const domController = (() => {
         createListsHeaderComponent.listAddButt.addEventListener("click", () => {
             document.getElementById("modal-list").classList.add("active")
         })
+        document.getElementById("close-form-list").addEventListener("click", function(){
+            document.getElementById("modal-list").classList.remove("active")
+        })
         const divAllLists = document.createElement("div")
         divAllLists.id = "lists-all-container"
-        divAllLists.classList.add("active")
+        divAllLists.hidden = false;
         document.getElementById("lists").appendChild(createListsHeaderComponent.listHeaderComp)
         document.getElementById("lists").appendChild(divAllLists)
 
@@ -49,10 +52,10 @@ const domController = (() => {
     const setUpMainItem = (parentList) => {
         const divItemComp = document.getElementById("items")
         divItemComp.innerHTML = "";
-        divItemComp.appendChild(createItemsHeaderComponent(parentList, parentList.numItems()))
+        divItemComp.appendChild(createItemsHeaderComponent(parentList, parentList.numItems(), "item-container"))
         const divAllItems = document.createElement("div")
         divAllItems.id = "items-all-container"
-        divAllItems.classList.add("active")
+        divAllItems.hidden = false;
         divItemComp.appendChild(divAllItems)
     }
 
@@ -60,10 +63,10 @@ const domController = (() => {
         const divListsComp = document.getElementById("lists-all-container")
         divListsComp.innerHTML = ""
         objController.getLists().forEach(onelist => {
-            const listContainer = createListComponent(onelist, onelist.numItems())
+            const listContainer = createListComponent(onelist, onelist.numItems(), "list-container")
             listContainer.addEventListener("click", function () {
                 divListsComp.innerHTML = ""
-                createListsHeaderComponent.listHeaderComp.hidden = true;
+                document.getElementById("lists").hidden = true;
                 setUpMainItem(onelist)
                 populateItems(onelist)
             })
@@ -72,7 +75,7 @@ const domController = (() => {
     }
     const populateItems = (parentList) => {
         const divItemsComp = document.getElementById("items-all-container")
-        divItemsComp.classList.add("active")
+        divItemsComp.hidden = false;
         divItemsComp.innerHTML = "";
         parentList.getItems().forEach(item => {
             const itemsComponent = createItemComponent(item)
