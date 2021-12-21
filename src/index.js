@@ -27,10 +27,14 @@ const objController = (() => {
             listArr[listArr.indexOf(inputList)].addItem(inputItem)
         }
     }
+    const getItems = (parentList) => {
+        return parentList.getItems()
+    }
     return {
         addList,
         getLists,
-        addItem
+        addItem, 
+        getItems
     }
 })();
 
@@ -51,12 +55,18 @@ const domController = (() => {
     }
     const setUpMainItem = (parentList) => {
         const divItemComp = document.getElementById("items")
-        divItemComp.innerHTML = "";
-        divItemComp.appendChild(createItemsHeaderComponent(parentList, parentList.numItems(), "item-container"))
+        // divItemComp.innerHTML = ""
         const divAllItems = document.createElement("div")
         divAllItems.id = "items-all-container"
         divAllItems.hidden = false;
+        divItemComp.appendChild(createItemsHeaderComponent(parentList, parentList.numItems(), "item-header-container"))
         divItemComp.appendChild(divAllItems)
+        document.getElementById("add-item-button").addEventListener("click", () => {
+            document.getElementById("modal-item").classList.add("active")
+        })
+        document.getElementById("close-form-item").addEventListener("click", function(){
+            document.getElementById("modal-item").classList.remove("active")
+        })
     }
 
     const populateLists = () => {
@@ -65,7 +75,6 @@ const domController = (() => {
         objController.getLists().forEach(onelist => {
             const listContainer = createListComponent(onelist, onelist.numItems(), "list-container")
             listContainer.addEventListener("click", function () {
-                divListsComp.innerHTML = ""
                 document.getElementById("lists").hidden = true;
                 setUpMainItem(onelist)
                 populateItems(onelist)
@@ -93,7 +102,11 @@ const domController = (() => {
 
     const formSubmitItem = (event) => {
         event.preventDefault();
+        console.log(event)
         document.getElementById("modal-item").classList.remove("active")
+        const itemForm = document.getElementById("item-form")
+        objController.addItem(document.getElementById("add-item-button").parent, item(itemForm.elements['item-name'].value, itemForm.elements['item-description'].value))
+        populateItems(document.getElementById("add-item-button").parent)
     }
 
     return {
@@ -114,3 +127,4 @@ const domController = (() => {
 })();
 
 document.getElementById("list-form").addEventListener("submit", domController.formSubmitList, false);
+document.getElementById("item-form").addEventListener("submit", domController.formSubmitItem, false);

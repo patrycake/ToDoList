@@ -40,6 +40,13 @@ const componentCreater = (() => {
         divListComp.appendChild(h2List);
         divListComp.appendChild(pDescriptionList);
         divListComp.appendChild(pNumItemList)
+        if(style == "item-header-container"){
+            const butAddItem = document.createElement("button");
+            butAddItem.innerHTML = "Add To Do Item"
+            butAddItem.id = "add-item-button"
+            butAddItem.parent = list
+            divListComp.appendChild(butAddItem)
+        }
 
         return divListComp;
     }
