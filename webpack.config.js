@@ -9,7 +9,8 @@ module.exports = {
     entry: {
         index: './src/index.js',
         todo: './src/todo.js',
-        component: './src/components.js',
+        listComponent: './src/list-components.js',
+        itemComponent: './src/item-components.js',
         hot: 'webpack/hot/dev-server.js',
         client: 'webpack-dev-server/client/index.js?hot=true&live-reload=true'
     },
@@ -18,11 +19,6 @@ module.exports = {
         static: "./dist",
         hot: true,
         client: false,
-        // open: {
-        //     app: {
-        //         name: 'google-chrome'
-        //     }
-        // }
     },
     plugins: [
         new HtmlWebpackPlugin({
